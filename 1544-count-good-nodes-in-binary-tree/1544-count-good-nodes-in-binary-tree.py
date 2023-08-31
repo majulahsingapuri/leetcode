@@ -7,10 +7,11 @@
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
 
-        def search(node, path = []):
+        def search(node, curMax = None):
             if not node:
                 return 0
-            increment = 1 if path == [] or node.val >= max(node.val, *path) else 0
-            return search(node.left, path + [node.val]) + search(node.right, path + [node.val]) + increment
+            increment = 1 if curMax is None or node.val >= curMax else 0
+            newMax = max(node.val, curMax) if curMax else node.val
+            return search(node.left, newMax) + search(node.right, newMax) + increment
 
         return search(root)
